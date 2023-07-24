@@ -1,0 +1,8 @@
+- ability to change the user name etc...
+- Make Login Dialog with bigger fonts (text field, etc) and add Instructions.
+- try debug Slow 3G connection on download. (connection speed choke in browser debug)
+- When creating a project, we can't put a ' (quote) in the name.
+- create a project, must validate tempo is numeric between 10 and 256.
+- create a project, must validate signature is format number / number.
+- long files and big projects may freeze the front end while back end tries to convert evrything to mp3 and png.
+   there is a patch on the server now but we'll need to make it into a worker with front end polling for results.

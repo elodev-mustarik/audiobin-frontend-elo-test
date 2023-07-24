@@ -1,0 +1,73 @@
+@import '../../../include-media';
+
+::ng-deep #app .mat-dialog-container {
+  padding: 32px;
+  background-color: $R_Dark_V3;
+}
+
+.edit-user-buttons-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.mt-6 {
+  margin-top: 24px;
+}
+
+::ng-deep .cancel-button,
+.submit-buttons {
+  width: 112px !important;
+  border-radius: 8px;
+}
+
+.input-icon {
+  background: url(../../../assets/images/icons/input_edit.png) no-repeat right;
+  background-size: 18px;
+  padding: 8px 0px !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.header {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: $White;
+}
+
+.message {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: $Light_Grey;
+}
+
+.inter-regular-20 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.inter-regular-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.inter-medium-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+}

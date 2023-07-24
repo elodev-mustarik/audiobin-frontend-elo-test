@@ -1,0 +1,61 @@
+<form
+  ngNativeValidate
+  #fileRenameForm="ngForm"
+  (ngSubmit)="onClickSubmit(fileRenameForm)"
+  class="app-modal YesNoForm"
+>
+  <div class="modal-header">
+    <p class="inter-regular-20">File Details</p>
+    <img
+      (click)="decline()"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="mt-8">
+    <label class="inter-light-14">Name</label>
+    <div class="mt-2 mb-8">
+      <input
+        type="text"
+        value="{{ fileName }}"
+        class="inter-light-14 fileName"
+        [(ngModel)]="fileName"
+        name="newFileName"
+        (input)="isChanged = true"
+      />
+    </div>
+
+    <label class="inter-light-14">Add Note</label>
+    <div class="mt-2 mb-8">
+      <input
+        type="text"
+        value="{{ fileNote }}"
+        class="inter-light-14 fileNote"
+        [(ngModel)]="fileNote"
+        name="newFileNote"
+        placeholder="Add Upload Note..."
+        (input)="isChanged = true"
+      />
+    </div>
+
+    <div class="edit-user-buttons-group mt-6">
+      <button
+        mat-button
+        class="cancel-button inter-medium-14"
+        type="button"
+        (click)="decline()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-button
+        class="submit-buttons inter-medium-14"
+        type="submit"
+        [disabled]="!isChanged"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,43 @@
+export interface S3File {
+    index: number;
+    key: string;
+    tagset: any;
+    s3Url: string;
+    s3PngUrl: string;
+    s3Mp3Url: string;
+    s3Mp4Url: string;
+    s3ImageUrl: string;
+    filename: string;
+    filesize: number;
+    mp3filesize: number;
+    type: string;
+    isAudio: boolean;
+    isVideo: boolean;
+    isImage: boolean;
+    videoLoaded: boolean;
+    largeVideo: boolean;
+    imageDisplay: string;
+    audio: any;
+    duration: number;
+    processing?: boolean;
+    show_spinner?: string; 
+    isdownloading: boolean;
+    checked: boolean;
+    volume: number;
+    backcolor: string;
+    checkmark: string;
+    border: string;
+    buffer_range_start: number;
+    source: AudioBufferSourceNode[];
+    preloadedFrames: any;
+    firstEmpiricalChunk?: ArrayBuffer;
+    nextStartTime: number;
+    packetPointer?: number;
+    framePointer?: number;
+    codecContextPointer?: number;
+    filterGraph?: [number, number, number];
+    frameSize?: number;
+    id3V2Offset?: number;
+    fileNote?:string;
+  }
+  

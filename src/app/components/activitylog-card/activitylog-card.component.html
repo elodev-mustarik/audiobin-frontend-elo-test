@@ -1,0 +1,41 @@
+<div class="activity-card">
+  <div class="activity-card-icon">
+    <img
+      [src]="getIcon(activity.type)"
+      alt="activity Icon"
+    />
+  </div>
+  <div class="activity-card-container">
+    <p class="activity-header">{{ getHeader(activity) }}</p>
+    <div *ngIf="activity.type === 'File Uploaded'">
+      <ul
+        class="activity-list"
+        *ngIf="activity.title.split('||').length > 1"
+      >
+        <li *ngFor="let fileName of activity.title.split('||'); let i = index">
+          {{ i + 1 }}. {{ fileName }}
+        </li>
+      </ul>
+    </div>
+    <p class="activity-type">{{ getType(activity) }}</p>
+    <p class="activity-note">{{ activity?.description }}</p>
+    <div class="activity-bottom">
+      <div class="activity-time">
+        <svg
+          width="10"
+          height="11"
+          viewBox="0 0 10 11"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 10.5C2.2385 10.5 0 8.2615 0 5.5C0 2.7385 2.2385 0.5 5 0.5C7.7615 0.5 10 2.7385 10 5.5C10 8.2615 7.7615 10.5 5 10.5ZM5 9.5C6.06087 9.5 7.07828 9.07857 7.82843 8.32843C8.57857 7.57828 9 6.56087 9 5.5C9 4.43913 8.57857 3.42172 7.82843 2.67157C7.07828 1.92143 6.06087 1.5 5 1.5C3.93913 1.5 2.92172 1.92143 2.17157 2.67157C1.42143 3.42172 1 4.43913 1 5.5C1 6.56087 1.42143 7.57828 2.17157 8.32843C2.92172 9.07857 3.93913 9.5 5 9.5ZM5.5 5.5H7.5V6.5H4.5V3H5.5V5.5Z"
+            fill="#757575"
+          />
+        </svg>
+        <span>{{ formattedTime(activity.create_time) }}</span>
+      </div>
+      <p class="activity-date">{{ formattedDate(activity.create_time) }}</p>
+    </div>
+  </div>
+</div>

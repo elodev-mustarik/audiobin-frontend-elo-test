@@ -1,0 +1,169 @@
+<div *ngIf="!this.authService.is_tauri_running">
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <app-login-card-header></app-login-card-header>
+        <form
+          #loginForm="ngForm"
+          *ngIf="!awaitingEmailVerification; else emailVerification"
+          class="app-modal loginForm"
+        >
+          <div class="field">
+            <input
+              type="text"
+              name="email"
+              id="email"
+              required
+              [(ngModel)]="inputEmail"
+              placeholder="Email Address"
+            />
+          </div>
+          <div class="field">
+            <input
+              type="text"
+              name="email_verification"
+              id="email_verification"
+              [(ngModel)]="confirmEmail"
+              required
+              placeholder="Confirm Email Address"
+              (blur)="checkEmailMatch()"
+              [class.is-invalid]="inputEmail !== confirmEmail && confirmEmailEntered"
+            />
+
+            <div
+              *ngIf="inputEmail !== confirmEmail && confirmEmailEntered"
+              class="invalid-input"
+            >
+              <div>Your email doesn’t match! Please enter correct email address.</div>
+            </div>
+          </div>
+          <div
+            class="g-recaptcha"
+            style="margin-top: 40px"
+          >
+            <ngx-turnstile
+              [siteKey]="turnstileKey"
+              theme="dark"
+              [(ngModel)]="confirmToken"
+              (resolved)="gotturnstileToken($event)"
+            ></ngx-turnstile>
+            
+          </div>
+          <button
+            type="submit"
+            mat-button
+            class="submit-buttons login-btn"
+            [class.blue-button]="validateEmail(inputEmail, confirmEmail) && turnstileValid"
+            (click)="authenticate()"
+            [disabled]="!validateEmail(inputEmail, confirmEmail) || !turnstileValid"
+            style="margin-top: 52px"
+          >
+            LOG IN
+          </button>
+        </form>
+        <div
+          class="dot-circle left"
+          [class.active]="isFirstDotActive"
+        ></div>
+        <div
+          class="dot-circle right"
+          [class.active]="isSecondDotActive"
+        ></div>
+      </div>
+    </div>
+    <ng-template #emailVerification>
+      <div>
+        <div style="display: flex; justify-content: center; margin-top: 76px">
+          <img
+            src="assets/images/emailbox_logo.png"
+            width="80"
+            height="80"
+          />
+        </div>
+        <p class="email-verification-text">
+          A verification link has been sent to your email. Please use the link in the email to
+          Login.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div *ngIf="this.authService.is_tauri_running">
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <app-login-card-header></app-login-card-header>
+        <form
+          #loginForm="ngForm"
+          *ngIf="!awaitingTOTPVerification; else TOTPVerification"
+          class="app-modal loginForm"
+        >
+          <div class="field">
+            <input
+              type="text"
+              name="emailTOTP"
+              id="emailTOTP"
+              required
+              [(ngModel)]="inputemailTOTP"
+              placeholder="Email Address"
+            />
+          </div>
+          <button
+            type="submit"
+            mat-button
+            class="submit-buttons login-btn"
+            (click)="getTOTP()"
+            [class.blue-button]="validateEmail(inputemailTOTP, inputemailTOTP)"
+            [disabled]="!validateEmail(inputemailTOTP, inputemailTOTP)"
+            style="margin-top: 52px"
+          >
+            Get One Time Password
+          </button>
+        </form>
+        <div
+          class="dot-circle left"
+          [class.active]="isFirstDotActive"
+        ></div>
+        <div
+          class="dot-circle right"
+          [class.active]="isSecondDotActive"
+        ></div>
+      </div>
+    </div>
+    <ng-template #TOTPVerification>
+      <div>
+        <div style="display: flex; justify-content: center; margin-top: 76px">
+          <img
+            src="assets/images/emailbox_logo.png"
+            width="80"
+            height="80"
+          />
+        </div>
+        <div class="field">
+          <input
+            type="text"
+            name="TOTP"
+            id="TOTP"
+            required
+            [(ngModel)]="inputTOTP"
+            placeholder="One Time Password"
+          />
+        </div>
+        <button
+          type="submit"
+          mat-button
+          class="submit-buttons login-btn"
+          [class.blue-button]="true"
+          (click)="authenticateTOTP()"
+          [disabled]="false"
+          style="margin-top: 52px"
+        >
+          LOG IN
+        </button>
+        <p class="email-verification-text">
+          A One Time Password has been sent to your email. Please use the code to login.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>

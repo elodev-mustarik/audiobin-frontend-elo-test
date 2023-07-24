@@ -1,0 +1,185 @@
+@import '../../../include-media';
+.content {
+  margin-left: auto;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  padding-top: 8%;
+  @include media('<=phone') {
+    padding-top: 35%;
+  }
+}
+.ab-logo {
+  margin-bottom: 20px;
+  max-width: 315px;
+  @include media('<=phone') {
+    max-width: 280px;
+  }
+}
+h3 {
+  font-weight: 200;
+  font-family: 'Montserrat';
+  font-size: 32px;
+  text-align: right;
+  @include media('<=phone') {
+    font-size: 24px;
+  }
+}
+
+.login-button {
+  margin-top: 32px;
+  background-color: rgba($Grey, 0.4);
+  color: $Light_Grey;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 16px 0px;
+  font-size: 20px;
+  width: 100%;
+}
+
+.ab-button {
+  background-color: rgb(107, 107, 255);
+  color: white;
+  width: 200px;
+  height: 40px;
+  font-weight: 200;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.rc-anchor-dark.rc-anchor-normal,
+.rc-anchor-dark.rc-anchor-compact {
+  border: none !important;
+}
+
+.login-btn {
+  margin: 16px 0px;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+}
+
+.email-verification-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  margin-top: 42px;
+  color: $White;
+}
+
+.invalid-input {
+  color: $Primary_Red;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  margin-top: 8px;
+}
+
+.blue-button {
+  background-color: $Primary_Blue;
+  color: $Main_BG;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 16px 0px;
+  font-size: 20px;
+  width: 100%;
+}
+
+.container {
+  background-image: url(../../../assets/images/login_bg.webp);
+  background-size: cover;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background-color: $R_Dark_V4;
+  border-radius: 24px;
+  width: calc(100% - 32px);
+  height: 638px;
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  @include media('<=tablet') {
+    background: rgba(20, 21, 22, 0.8);
+    backdrop-filter: blur(10px);
+    width: 100vw;
+    padding: 32px;
+    height: 100%;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  @include media('>desktop') {
+    background-color: rgba(255, 255, 255, 0.01);
+    width: 460px;
+    position: absolute;
+    top: 50%;
+    right: 185px;
+    transform: translateY(-50%);
+    padding: 40px 32px;
+    max-height: 581px;
+  }
+}
+
+.card-body {
+  width: 100%;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.dot-circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba($Primary_Blue, 0.15);
+  position: absolute;
+  bottom: 40px;
+}
+
+.dot-circle.active {
+  background-color: $Primary_Blue;
+}
+
+.dot-circle.left {
+  left: 50%;
+  transform: translateX(-10px);
+}
+
+.dot-circle.right {
+  right: 50%;
+  transform: translateX(10px);
+}
+
+.inter-medium-16 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+}

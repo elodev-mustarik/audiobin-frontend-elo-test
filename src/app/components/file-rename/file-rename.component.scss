@@ -1,0 +1,116 @@
+@import '../../../include-media';
+
+::ng-deep #app .mat-dialog-container {
+  padding: 32px;
+  background-color: $R_Dark_V3;
+}
+
+.edit-user-buttons-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.mt-6 {
+  margin-top: 24px;
+}
+
+::ng-deep .cancel-button,
+.submit-buttons {
+  width: 112px !important;
+  border-radius: 8px;
+}
+
+.fileName {
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border: 2px solid $R_Dark_V1;
+  border-radius: 4px;
+  margin: 8px 0px;
+}
+.fileNote {
+  padding: 24px 16px;
+  box-sizing: border-box;
+  border: 2px solid $R_Dark_V1;
+  border-radius: 4px;
+  margin: 8px 0px;
+}
+
+.my-3 {
+  margin: 12px 0;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-8 {
+  margin-top: 32px;
+}
+
+.mb-8 {
+  margin-bottom: 32px;
+}
+
+.header {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: $White;
+}
+
+.message {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: $Light_Grey;
+}
+
+.inter-regular-20 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.inter-regular-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.inter-medium-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+.inter-light-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+label {
+  color: $Light_Grey;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+::ng-deep .cancel-button,
+.submit-buttons {
+  width: 196px !important;
+}

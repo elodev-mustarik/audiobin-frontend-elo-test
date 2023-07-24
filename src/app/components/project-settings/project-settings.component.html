@@ -1,0 +1,127 @@
+<form
+  #ProjectSettings="ngForm"
+  class="app-modal ProjectSettingsForm"
+>
+  <div class="modal-header">
+    <h4 class="inter-regular-20">Project Settings</h4>
+    <img
+      [mat-dialog-close]="true"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="field">
+    <input
+      type="text"
+      name="project_name"
+      id="project_name"
+      required
+      [(ngModel)]="inputName"
+      placeholder="Enter new project name..."
+      class="inter-regular-14"
+    />
+  </div>
+  <!-- <div class="fields-group">
+    <div class="field">
+      <input
+        type="text"
+        name="project_bpm"
+        id="project_bpm"
+        required
+        [(ngModel)]="inputBpm"
+        class="inter-regular-14"
+      />
+    </div>
+    <div class="field">
+      <input
+        type="text"
+        name="project_sig"
+        id="project_sig"
+        required
+        [(ngModel)]="inputSig"
+        class="inter-regular-14"
+      />
+    </div>
+  </div> -->
+
+  <div class="disable-btn">
+    <label class="switch">
+      <input
+        type="checkbox"
+        name="downloadEnabled"
+        [(ngModel)]="isDownloadable"
+        (change)="onCheckboxChange($event)"
+      />
+      <span class="slider round"></span>
+    </label>
+    <p class="inter-regular-14">Allow downloads by members</p>
+  </div>
+
+  <p class="disable-btn-note inter-regular-14__140">
+    Disable this if you want to block downloads for other members. This can be changed any time from
+    project settings.
+  </p>
+
+  <input
+    type="text"
+    name="project_description"
+    id="project_description"
+    [(ngModel)]="project_description"
+    placeholder="Project Creation Note"
+    class="inter-light-14"
+  />
+
+  <button
+    mat-button
+    class="submit-buttons submit inter-medium-14"
+    (click)="saveProject()"
+  >
+    Save Changes
+  </button>
+  <div class="action-buttons">
+    <div class="field">
+      <button
+        mat-button
+        class="outline-btn outline-danger action-btn"
+        (click)="deleteProject()"
+      >
+        <svg
+          width="9"
+          height="11"
+          viewBox="0 0 9 11"
+          fill="currentcolor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0.624999 9.5625C0.624999 9.81114 0.723771 10.0496 0.899586 10.2254C1.0754 10.4012 1.31386 10.5 1.5625 10.5H7.18749C7.43613 10.5 7.67459 10.4012 7.8504 10.2254C8.02622 10.0496 8.12499 9.81114 8.12499 9.5625V3H0.624999V9.5625ZM5.93749 4.5625C5.93749 4.47962 5.97042 4.40014 6.02902 4.34153C6.08763 4.28293 6.16711 4.25 6.24999 4.25C6.33287 4.25 6.41236 4.28293 6.47096 4.34153C6.52957 4.40014 6.56249 4.47962 6.56249 4.5625V8.9375C6.56249 9.02038 6.52957 9.09987 6.47096 9.15847C6.41236 9.21708 6.33287 9.25 6.24999 9.25C6.16711 9.25 6.08763 9.21708 6.02902 9.15847C5.97042 9.09987 5.93749 9.02038 5.93749 8.9375V4.5625ZM4.0625 4.5625C4.0625 4.47962 4.09542 4.40014 4.15402 4.34153C4.21263 4.28293 4.29212 4.25 4.375 4.25C4.45788 4.25 4.53736 4.28293 4.59597 4.34153C4.65457 4.40014 4.6875 4.47962 4.6875 4.5625V8.9375C4.6875 9.02038 4.65457 9.09987 4.59597 9.15847C4.53736 9.21708 4.45788 9.25 4.375 9.25C4.29212 9.25 4.21263 9.21708 4.15402 9.15847C4.09542 9.09987 4.0625 9.02038 4.0625 8.9375V4.5625ZM2.1875 4.5625C2.1875 4.47962 2.22042 4.40014 2.27903 4.34153C2.33763 4.28293 2.41712 4.25 2.5 4.25C2.58288 4.25 2.66236 4.28293 2.72097 4.34153C2.77957 4.40014 2.8125 4.47962 2.8125 4.5625V8.9375C2.8125 9.02038 2.77957 9.09987 2.72097 9.15847C2.66236 9.21708 2.58288 9.25 2.5 9.25C2.41712 9.25 2.33763 9.21708 2.27903 9.15847C2.22042 9.09987 2.1875 9.02038 2.1875 8.9375V4.5625ZM8.43749 1.125H6.09374L5.91015 0.759769C5.87126 0.681686 5.81135 0.616004 5.73717 0.570112C5.66298 0.524221 5.57746 0.499941 5.49023 0.500003H3.25781C3.17077 0.499669 3.0854 0.523858 3.01148 0.569801C2.93756 0.615743 2.87807 0.68158 2.83984 0.759769L2.65625 1.125H0.3125C0.22962 1.125 0.150134 1.15793 0.091529 1.21653C0.032924 1.27514 0 1.35462 0 1.4375L0 2.0625C0 2.14538 0.032924 2.22487 0.091529 2.28347C0.150134 2.34208 0.22962 2.375 0.3125 2.375H8.43749C8.52037 2.375 8.59986 2.34208 8.65846 2.28347C8.71707 2.22487 8.74999 2.14538 8.74999 2.0625V1.4375C8.74999 1.35462 8.71707 1.27514 8.65846 1.21653C8.59986 1.15793 8.52037 1.125 8.43749 1.125Z"
+            fill="currentcolor"
+          />
+        </svg>
+        Delete Project
+      </button>
+    </div>
+    <!-- <div class="field">
+      <button
+        mat-button
+        class="outline-btn outline-primary action-btn"
+        (click)="sendToSkytracks()"
+        style="border-radius: 8px"
+      >
+        <svg
+          width="13"
+          height="12"
+          viewBox="0 0 13 12"
+          fill="currentcolor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.69333 8.86C5.95333 9.12 6.37333 9.12 6.63333 8.86L9.02667 6.46667C9.08847 6.40499 9.1375 6.33173 9.17096 6.25108C9.20441 6.17043 9.22163 6.08398 9.22163 5.99667C9.22163 5.90935 9.20441 5.8229 9.17096 5.74225C9.1375 5.6616 9.08847 5.58834 9.02667 5.52667L6.63333 3.13333C6.50868 3.00868 6.33962 2.93865 6.16333 2.93865C5.98705 2.93865 5.81799 3.00868 5.69333 3.13333C5.56868 3.25799 5.49865 3.42705 5.49865 3.60333C5.49865 3.77962 5.56868 3.94868 5.69333 4.07333L6.94667 5.33333H1.16667C0.8 5.33333 0.5 5.63333 0.5 6C0.5 6.36667 0.8 6.66667 1.16667 6.66667H6.94667L5.69333 7.92C5.43333 8.18 5.44 8.60667 5.69333 8.86ZM11.1667 0H1.83333C1.47971 0 1.14057 0.140476 0.890524 0.390524C0.640476 0.640573 0.5 0.979711 0.5 1.33333V3.33333C0.5 3.7 0.8 4 1.16667 4C1.53333 4 1.83333 3.7 1.83333 3.33333V2C1.83333 1.63333 2.13333 1.33333 2.5 1.33333H10.5C10.8667 1.33333 11.1667 1.63333 11.1667 2V10C11.1667 10.3667 10.8667 10.6667 10.5 10.6667H2.5C2.13333 10.6667 1.83333 10.3667 1.83333 10V8.66667C1.83333 8.3 1.53333 8 1.16667 8C0.8 8 0.5 8.3 0.5 8.66667V10.6667C0.5 11.4 1.1 12 1.83333 12H11.1667C11.9 12 12.5 11.4 12.5 10.6667V1.33333C12.5 0.6 11.9 0 11.1667 0Z"
+            fill="currentcolor"
+          />
+        </svg>
+        Send to SkyTracks
+      </button>
+    </div> -->
+  </div>
+</form>

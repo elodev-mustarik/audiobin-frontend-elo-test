@@ -1,0 +1,136 @@
+@import '../../../include-media';
+
+.action-buttons {
+  margin-top: 32px;
+  @include media('<=phone') {
+    margin-top: 16px;
+  }
+}
+.submit {
+  margin-top: 32px;
+}
+
+.disable-btn {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
+  p {
+    font-family: 'Inter', 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: $White;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: $Light_Grey;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  top: 2px;
+  background-color: $White;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: $Brand_Blue;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $Brand_Blue;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(22px);
+  -ms-transform: translateX(22px);
+  transform: translateX(22px);
+}
+
+.slider.round {
+  border-radius: 25px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.disable-btn-note {
+  font-family: 'Inter', 'Roboto';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: $Light_Grey;
+  margin-top: 1rem;
+  max-width: 420px;
+}
+
+.inter-regular-20 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.inter-regular-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.inter-regular-14__140 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+}
+
+.inter-medium-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+#project_description {
+  box-sizing: border-box;
+  border: 2px solid $R_Dark_V1;
+  padding: 42px 16px;
+  background-color: transparent;
+  margin-top: 32px;
+  outline: none;
+  width: 100%;
+  border-radius: 4px;
+}

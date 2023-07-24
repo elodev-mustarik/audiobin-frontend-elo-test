@@ -1,0 +1,18 @@
+@import '../../../include-media';
+
+.logout-button {
+  display: inline-flex;
+  margin-top: 20px;
+  width: 100%;
+  background-color: $Light_White;
+  font-size: 16px;
+  font-weight: 400;
+  color: $Light_Grey;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 12px;
+    margin-right: 4px;
+  }
+}

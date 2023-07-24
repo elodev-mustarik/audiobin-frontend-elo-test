@@ -1,0 +1,101 @@
+<form
+  ngNativeValidate
+  #filesNote="ngForm"
+  (ngSubmit)="onClickSubmit(filesNote)"
+  class="app-modal YesNoForm"
+>
+  <div class="modal-header">
+    <p class="inter-regular-20">Edit File</p>
+    <img
+      (click)="decline()"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="mt-8">
+    <ul class="mb-8">
+      <li
+        *ngFor="let item of files; let i = index"
+        class="files inter-regular-16"
+      >
+        {{ i + 1 }}. {{ item.filename }}
+      </li>
+    </ul>
+    <label class="inter-light-14">Tags</label>
+    <div class="my-3">
+      <mat-chip-list
+        #chipList
+        aria-label="Tag selection"
+        class="inter-light-14"
+      >
+        <mat-chip
+          class="assigned-chip-color"
+          *ngFor="let tag of tags"
+          (removed)="remove(tag)"
+        >
+          {{ tag }}
+          <button
+            matChipRemove
+            style="align-items: center; margin-top: auto; margin-bottom: auto"
+          >
+            <img
+              src="assets/images/icons/close.svg"
+              alt="cancel"
+              height="14"
+              width="14"
+            />
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="mt-2 mb-8">
+      <mat-form-field
+        class="example-chip-list"
+        appearance="fill"
+      >
+        <input
+          matInput
+          placeholder="Ex. Tag1, Tag2"
+          #tagInput
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+          class="inter-light-14"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let tag of filteredTags | async"
+            [value]="tag"
+            [ngClass]="{'selected-tag': tags.includes(tag)}"
+          >
+            {{ tag }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="edit-user-buttons-group mt-6">
+      <button
+        mat-button
+        class="cancel-button inter-medium-14"
+        type="button"
+        (click)="decline()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-button
+        class="submit-buttons inter-medium-14"
+        type="submit"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</form>

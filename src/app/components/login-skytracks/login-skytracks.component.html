@@ -1,0 +1,52 @@
+<form
+  ngForm
+  #SkyForm="ngForm"
+  class="app-modal newProjectForm"
+>
+  <div class="modal-header">
+    <h4>Send to SkyTracks</h4>
+    <img
+      [mat-dialog-close]="true"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="read-only-field">
+    <div class="label-for">Project Name:</div>
+    <div>{{ inputName }}</div>
+  </div>
+  <div class="read-only-field">
+    <div class="label-for">BPM:</div>
+    <div>{{ inputBpm }}</div>
+  </div>
+  <div class="read-only-field">
+    <div class="label-for">Signature:</div>
+    <div>{{ inputSig }}</div>
+  </div>
+  <div class="read-only-field">
+    <div class="label-for">Email for SkyTracks:</div>
+    <div>{{ inputEmail }}</div>
+  </div>
+
+  <div class="field">
+    <input
+      type="password"
+      placeholder="Password"
+      name="pw"
+      id="pw"
+      required
+      [(ngModel)]="inputPw"
+    />
+  </div>
+
+  <button
+    mat-button
+    class="submit-buttons mt-8"
+    color="primary"
+    type="submit"
+    (click)="sendProject()"
+  >
+    Send to SkyTracks
+  </button>
+</form>

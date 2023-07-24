@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "aws-sdk": "registry:dt/aws-sdk#0.0.0+20161119044246"
+  },
+  "globalDependencies": {
+    "node": "registry:dt/node#7.0.0+20170322231424"
+  }
+}

@@ -1,0 +1,18 @@
+@import '../../../include-media';
+
+.inter-bold-16 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.header-text {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 20px;
+  color: $Primary_Blue;
+}

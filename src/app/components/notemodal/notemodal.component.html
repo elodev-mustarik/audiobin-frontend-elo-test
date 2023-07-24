@@ -1,0 +1,55 @@
+<form
+  ngNativeValidate
+  #filesNote="ngForm"
+  (ngSubmit)="onClickSubmit(filesNote)"
+  class="app-modal YesNoForm"
+>
+  <div class="modal-header">
+    <p class="inter-regular-20">File Upload</p>
+    <img
+      (click)="decline()"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="mt-8">
+    <ul class="mb-8">
+      <li
+        *ngFor="let item of files; let i = index"
+        class="files inter-regular-16"
+      >
+        {{ i + 1 }}. {{ item.name }}
+      </li>
+    </ul>
+    <label class="inter-light-14">Add Note</label>
+    <div class="mt-2 mb-8">
+      <input
+        type="text"
+        value="{{ note }}"
+        class="inter-light-14"
+        [(ngModel)]="note"
+        name="note"
+        placeholder="Add Upload Note..."
+      />
+    </div>
+
+    <div class="edit-user-buttons-group mt-6">
+      <button
+        mat-button
+        class="cancel-button inter-medium-14"
+        type="button"
+        (click)="decline()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-button
+        class="submit-buttons inter-medium-14"
+        type="submit"
+      >
+        Upload
+      </button>
+    </div>
+  </div>
+</form>

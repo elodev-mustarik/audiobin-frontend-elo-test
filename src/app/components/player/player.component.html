@@ -1,0 +1,236 @@
+<span
+  *ngIf="!usedAsComponent"
+  style="margin-left: 20px; color: white"
+  >{{ this.projectInfo[1] }}</span
+>&nbsp;&nbsp;&nbsp;<span
+  *ngIf="!usedAsComponent"
+  style="color: dimgray"
+  >Powered by
+  <a
+    style="color: gray"
+    href="https://softcollab.com"
+    >softcollab</a
+  ></span
+>
+<div
+  id="progress_mask"
+  class="progress-mask"
+  [ngStyle]="{visibility: progressMaskVisibility}"
+>
+  <div
+    id="progress_text"
+    class="progress-text"
+  >
+    {{ progress_text }}
+    <br /><br />
+  </div>
+  <mat-progress-spinner
+    color="primary"
+    [mode]="this.progress_mode"
+    [value]="this.progress_value"
+  ></mat-progress-spinner>
+</div>
+<div>
+  <div>
+    <div>
+      <!-- images section -->
+      <div>
+        <div>
+          <H2 *ngIf="!usedAsComponent">{{ this.projectInfo[7] }}</H2>
+        </div>
+        <div style="display: flex; justify-content: flex-start; gap: 8px">
+          <div *ngFor="let file of contents">
+            <mat-card *ngIf="file.is_image">
+              <img
+                src="{{ file.signed_url }}"
+                height="220px"
+                width="220px"
+                style="object-fit: cover; height: 220px; width: 220px"
+              />
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <!-- audio section -->
+      <div *ngFor="let file of contents">
+        <mat-card
+          [ngClass]="file.card_class"
+          *ngIf="file.is_audio && file.tag_set.length === 0"
+        >
+          <mat-checkbox
+            *ngIf="doCommerce"
+            (change)="selectFile(file)"
+            class="file-select"
+            [(ngModel)]="file.checked"
+          ></mat-checkbox>
+          <mat-card-title class="file-name">{{ file.file_name }}</mat-card-title>
+          <mat-card-content>
+            <button
+              *ngIf="doCommerce"
+              mat-mini-fab
+              (click)="buyFile(file)"
+              class="buy-button"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+
+            <button
+              mat-mini-fab
+              (click)="playFile(file)"
+              [ngClass]="file.icon_class"
+            >
+              <mat-icon class="mat-icon">{{ file.icon }}</mat-icon>
+            </button>
+
+            <mat-slider
+              [ngClass]="file.position_slider_class"
+              min="1"
+              max="1000"
+              step="1"
+              [(ngModel)]="file.slider_position"
+              (input)="sliderChange(file, $event)"
+            >
+            </mat-slider>
+
+            <div class="time-display">{{ file.time_display }}</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <cdk-accordion *ngIf="tags.length > 0">
+        <cdk-accordion-item
+          *ngFor="let tag of tags; let index = index"
+          #accordionItem="cdkAccordionItem"
+          role="button"
+          tabindex="0"
+          [attr.id]="'accordion-header-' + index"
+          [attr.aria-expanded]="accordionItem.expanded"
+          [attr.aria-controls]="'accordion-body-' + index"
+          [expanded]="index === 0"
+        >
+          <div class="accordion-item">
+            <div
+              (click)="accordionItem.toggle()"
+              class="example-accordion-item-header"
+            >
+              <span class="tag">{{ tag }}</span>
+              <hr class="line" />
+              <img
+                class="arrow-icon"
+                [src]="
+                  accordionItem.expanded
+                    ? 'assets/images/icons/arrow_up.png'
+                    : 'assets/images/icons/arrow_down.png'
+                "
+                alt="Arrow"
+              />
+            </div>
+          </div>
+
+          <div
+            class="example-accordion-item-body"
+            role="region"
+            [style.display]="accordionItem.expanded ? '' : 'none'"
+            [attr.id]="'accordion-body-' + index"
+            [attr.aria-labelledby]="'accordion-header-' + index"
+          >
+            <div *ngFor="let file of contents">
+              <mat-card
+                [ngClass]="file.card_class"
+                *ngIf="file.is_audio && checkForTag(file, tag)"
+              >
+                <mat-checkbox
+                  *ngIf="doCommerce"
+                  (change)="selectFile(file)"
+                  class="file-select"
+                  [(ngModel)]="file.checked"
+                ></mat-checkbox>
+                <mat-card-title class="file-name inter-regular-16">{{
+                  file.file_name
+                }}</mat-card-title>
+                <mat-card-content>
+                  <button
+                    *ngIf="doCommerce"
+                    mat-mini-fab
+                    (click)="buyFile(file)"
+                    class="buy-button"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+
+                  <button
+                    mat-mini-fab
+                    (click)="playFile(file)"
+                    [ngClass]="file.icon_class"
+                  >
+                    <mat-icon class="mat-icon">{{ file.icon }}</mat-icon>
+                  </button>
+
+                  <mat-slider
+                    [ngClass]="file.position_slider_class"
+                    min="1"
+                    max="1000"
+                    step="1"
+                    [(ngModel)]="file.slider_position"
+                    (input)="sliderChange(file, $event)"
+                  >
+                  </mat-slider>
+
+                  <div class="time-display">{{ file.time_display }}</div>
+                </mat-card-content>
+                <!-- <hr style="color:#d0d0d0; width:100%;margin-top: 5px;"/> -->
+              </mat-card>
+            </div>
+          </div>
+          <!--        </div>-->
+        </cdk-accordion-item>
+      </cdk-accordion>
+    </div>
+    <div
+      class="side-column"
+      *ngIf="doCommerce"
+    >
+      <div style="text-align: center">
+        <br />
+        <h3>Download Cart</h3>
+        <br />
+        <hr style="background-color: gray; height: 1px" />
+        <div *ngFor="let file of cart_contents">
+          {{ file.file_name }}
+          <br />
+        </div>
+
+        <button
+          mat-flat-button
+          (click)="clearCart()"
+          class="clear-button"
+        >
+          <mat-icon>clear</mat-icon>
+          Clear Cart
+        </button>
+
+        <button
+          mat-flat-button
+          (click)="downloadCart()"
+          class="cart-button"
+        >
+          <mat-icon>download</mat-icon>
+          Download
+        </button>
+        <!-- <hr />
+      <br />
+      Recording, Mixing and Mastering this music, and making this web site, is time consuming and
+      requires a lot of work.<br />
+      If you can, please donate thru Paypal.<br /><br />
+      <button
+        mat-flat-button
+        (click)="donatePage()"
+        class="cart-button"
+        style="background-color: #c8c8c8 !important; font-size: 11pt"
+      >
+        <mat-icon>money</mat-icon>Donate Here...
+      </button> -->
+      </div>
+    </div>
+  </div>
+</div>

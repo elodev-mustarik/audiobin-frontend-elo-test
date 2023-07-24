@@ -1,0 +1,164 @@
+@import '../../../include-media';
+
+.inter-light-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+.inter-medium-14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+.inter-regular-14__140 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+}
+
+.inter-regular-16 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.inter-regular-20 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.files {
+  list-style: none;
+  color: $Primary_Blue;
+  padding: 4px 0;
+}
+
+.edit-user-buttons-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.mat-option {
+  height: 32px;
+  line-height: 18px;
+  padding: 7px 16px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $Grey;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.my-3 {
+  margin: 12px 0;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-8 {
+  margin-top: 32px;
+}
+
+.mb-8 {
+  margin-bottom: 32px;
+}
+
+.assigned-chip-color {
+  background-color: $Modal_BG;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: $Light_Grey;
+}
+
+.mat-option:hover {
+  color: $White;
+}
+
+::ng-deep input[type='text'] {
+  padding: 40px 16px;
+  box-sizing: border-box;
+  border: 2px solid $R_Dark_V1;
+  border-radius: 4px;
+  margin: 8px 0px;
+}
+
+::ng-deep .cancel-button,
+.submit-buttons {
+  width: 196px !important;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: #242426 !important;
+  border: 2px solid $R_Dark_V1 !important;
+  border-radius: 4px;
+  padding: 12px !important;
+}
+
+::ng-deep .mat-standard-chip.mat-chip-with-trailing-icon {
+  padding: 6px 8px !important;
+}
+
+::ng-deep .mat-chip.mat-standard-chip {
+  background-color: $R_Dark_V1;
+  color: #fff;
+  border-radius: 4px;
+}
+
+::ng-deep .mat-chip-list-wrapper {
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+::ng-deep .mat-chip-list-wrapper .mat-standard-chip {
+  margin: 0 !important;
+}
+
+::ng-deep input.mat-chip-input {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $Primary_Blue;
+}
+
+::ng-deep .mat-autocomplete-panel
+  .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+  color: $Primary_Blue;
+}
+
+.mat-option.selected-tag {
+  color: $Primary_Blue;
+}

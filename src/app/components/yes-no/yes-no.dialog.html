@@ -1,0 +1,30 @@
+<div class="app-modal YesNoForm">
+  <div class="modal-header">
+    <h4 class="inter-regular-20">{{title}}</h4>
+  </div>
+  <div
+    mat-dialog-content
+    class="mt-4"
+  >
+    <p class="inter-regular-14">{{message}}</p>
+  </div>
+  <div class="buttons-group mt-8">
+    <button
+      mat-button
+      class="cancel-button inter-medium-14"
+      type="button"
+      (click)="decline()"
+      cdkFocusInitial
+    >
+      {{btnCancelText}}
+    </button>
+    <button
+      mat-button
+      class="submit-buttons inter-medium-14"
+      type="button"
+      (click)="confirm()"
+    >
+      {{btnOkText}}
+    </button>
+  </div>
+</div>

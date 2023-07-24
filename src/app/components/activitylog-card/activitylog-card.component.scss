@@ -1,0 +1,93 @@
+@import '../../../include-media';
+:host {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.activity-header {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  word-break: break-all;
+}
+
+.activity-type {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #99bdff;
+}
+
+.activity-note {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  color: #bdbdbd;
+}
+
+.activity-time {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #757575;
+}
+
+.activity-date {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #757575;
+}
+
+.activity-bottom {
+  display: inline-flex;
+  gap: 24px;
+}
+
+.activity-card {
+  display: flex;
+  gap: 12px;
+}
+
+.activity-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.activity-card-icon {
+  height: 32px;
+  width: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.activity-card {
+  width: calc(100% - 8px);
+}
+
+.activity-list {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  color: $Light_Grey;
+  list-style: none;
+}

@@ -1,0 +1,44 @@
+<form
+  ngNativeValidate
+  #usernameForm="ngForm"
+  (ngSubmit)="onClickSubmit(usernameForm)"
+>
+  <div class="app-modal YesNoForm">
+    <div>
+      <h4 class="header inter-regular-20">{{ title }}</h4>
+    </div>
+    <div
+      mat-dialog-content
+      class="mt-6"
+    >
+      <p class="message inter-regular-14">{{ message }}</p>
+    </div>
+
+    <input
+      type="text"
+      value="{{ username }}"
+      class="input-icon inter-regular-14"
+      [(ngModel)]="username"
+      name="newUsername"
+      required
+    />
+
+    <div class="edit-user-buttons-group mt-6">
+      <button
+        mat-button
+        class="cancel-button inter-medium-14"
+        type="button"
+        (click)="decline()"
+      >
+        {{ btnCancelText }}
+      </button>
+      <button
+        mat-button
+        class="submit-buttons inter-medium-14"
+        type="submit"
+      >
+        {{ btnOkText }}
+      </button>
+    </div>
+  </div>
+</form>

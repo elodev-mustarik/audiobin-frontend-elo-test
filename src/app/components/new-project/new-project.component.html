@@ -1,0 +1,85 @@
+<form
+  #ProjectForm="ngForm"
+  class="app-modal newProjectForm"
+>
+  <div class="modal-header">
+    <h4 class="inter-regular-20">Create Project</h4>
+    <img
+      [mat-dialog-close]="true"
+      class="close"
+      src="assets/images/icons/close.svg"
+      alt="close"
+    />
+  </div>
+  <div class="field">
+    <input
+      type="text"
+      name="project_name"
+      id="project_name"
+      required
+      [(ngModel)]="inputName"
+      placeholder="Enter new project name..."
+      class="inter-regular-14"
+    />
+  </div>
+  <div class="fields-group">
+    <!-- <div class="field">
+      <input
+        type="text"
+        name="project_bpm"
+        id="project_bpm"
+        required
+        [(ngModel)]="inputBpm"
+        placeholder="BPM"
+        class="inter-regular-14"
+      />
+    </div>
+    <div class="field">
+      <input
+        type="text"
+        name="project_sig"
+        id="project_sig"
+        required
+        [(ngModel)]="inputSig"
+        placeholder="Signature"
+        class="inter-regular-14"
+      />
+    </div> -->
+  </div>
+
+  <div class="disable-btn">
+    <label class="switch">
+      <input
+        type="checkbox"
+        name="downloadEnabled"
+        [(ngModel)]="isDownloadable"
+        (change)="onCheckboxChange($event)"
+      />
+      <span class="slider round"></span>
+    </label>
+    <p class="inter-regular-14">Allow downloads by members</p>
+  </div>
+
+  <p class="disable-btn-note inter-regular-14__140">
+    Disable this if you want to block downloads for other members. This can be changed any time from
+    project settings.
+  </p>
+
+  <input
+    type="text"
+    name="project_description"
+    id="project_description"
+    [(ngModel)]="projectNote"
+    placeholder="Project Creation Note"
+    class="inter-light-14"
+  />
+
+  <button
+    mat-button
+    class="submit-buttons create-btn inter-medium-14"
+    type="submit"
+    (click)="createProject()"
+  >
+    Create Project
+  </button>
+</form>

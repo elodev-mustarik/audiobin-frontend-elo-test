@@ -1,0 +1,22 @@
+<html>
+  <head>
+      <!-- tidio chat code  -->
+  <script src="https://code.tidio.co/lfgideuwexuek0azxkmqlnnglyrankan.js" async></script>
+  <script>
+    (function () {
+      function onTidioChatApiReady() {
+        window.tidioChatApi.show();
+      }
+
+      if (window.tidioChatApi) {
+        window.tidioChatApi.on("ready", onTidioChatApiReady);
+      } else {
+        document.addEventListener("tidioChat-ready", onTidioChatApiReady);
+      }
+    })();
+  </script>
+
+  </head>
+  <body>
+  </body>
+</html>

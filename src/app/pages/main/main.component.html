@@ -1,0 +1,1135 @@
+<div
+  id="progress_mask"
+  class="progress-mask"
+  [ngStyle]="{visibility: progressMaskVisibility}"
+>
+  <div
+    id="progress_text"
+    class="progress-text"
+  >
+    <strong>{{ progress_text }}</strong
+    ><br /><br />
+  </div>
+  <mat-progress-spinner
+    color="primary"
+    [mode]="this.progress_mode"
+    [value]="this.progress_value"
+  ></mat-progress-spinner>
+</div>
+
+<div class="container">
+  <div [ngClass]="{'LTE-Dsk-hidden': !isDrawerOpen, 'projects-area': true}">
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="isDrawerOpen = !isDrawerOpen"
+      class="menu-open"
+    >
+      <mat-icon>menu_open</mat-icon>
+    </button>
+    <div class="projects-header">
+      <h3 class="h3-projects inter-bold-16">PROJECTS</h3>
+      <button
+        mat-mini-fab
+        class="create-project"
+        color="primary"
+        (click)="projects.newProject(users.user.id)"
+        style="background-color: rgba(255, 129, 105, 0.15)"
+      >
+        <mat-icon>add</mat-icon>
+        <span class="inter-medium-16">New</span>
+      </button>
+        <button
+          mat-mini-fab
+          *ngIf="isTauri()"
+          class='create-project'
+          color='primary'
+          (click)='shellRecorder()'
+          style='background-color: rgba(255, 129, 105, 0.15)'
+        >
+        <span class='inter-medium-16'>REC</span>
+      </button>
+    </div>
+    <hr class="projects-hr" />
+    <cdk-virtual-scroll-viewport
+      itemSize="200"
+      class="project-list-container"
+    >
+      <mat-button-toggle-group
+        vertical="true"
+        value="{{ projects.defaultProjectSelectedId }}"
+      >
+        <mat-button-toggle
+          *ngFor="let project of projects.projects"
+          class="toggle-button inter-medium-16"
+          id="project_{{ project.id }}"
+          value="{{ project.id }}"
+          (click)="loadStems(project); isDrawerOpen = false"
+        >
+          <div style="display: flex; justify-content: space-between">
+            <p>{{ project.name }}</p>
+            <img
+              src="assets/images/icons/shared.svg"
+              alt=""
+              *ngIf="project.owner_email != users.user.email"
+              matTooltip="Owned by {{ project.owner_name }}"
+            />
+          </div>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </cdk-virtual-scroll-viewport>
+    <div class="projects-footer">
+      <div class="details">
+        <!-- <span
+          class="logo"
+          style="
+            background: -webkit-linear-gradient(0deg, #ef4c06, #ce02f2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22pt;
+            font-weight: semi-bold;
+          "
+          >SC</span
+        > -->
+        <img
+          class="logo"
+          src="../../assets/images/softcollab-new-logo.svg"
+        />
+
+        <div class="logged-in">
+          <p class="gray inter-regular-14">Logged in as</p>
+          <div class="edit-user">
+            <p class="email inter-regular-14">
+              {{
+                users.user.username === '' ? users.userName(users.user.email) : users.user.username
+              }}
+            </p>
+            <mat-icon
+              matTooltip="Edit Username"
+              class="small-icons tooltip-icon"
+              (click)="users.addUserName(users.user)"
+              >edit
+            </mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="logout">
+        <app-logout></app-logout>
+      </div>
+    </div>
+  </div>
+  <div
+    (click)="isDrawerOpen = false"
+    [ngClass]="{'LTE-Dsk-hidden': !isDrawerOpen, 'drawer-overlay': true}"
+  ></div>
+
+  <div
+    class="files-area"
+    id="files-area"
+  >
+    <div class="top-action-bar">
+      <button
+        (click)="isDrawerOpen = !isDrawerOpen"
+        class="menu-closed"
+      >
+        <img
+          src="assets/images/icons/menu.svg"
+          alt="menu"
+        />
+      </button>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <button
+          (click)="projects.shareProject(projects.current_project)"
+          [disabled]="projects.current_project.owner_id != users.user.id"
+          class="project-share"
+        >
+          <img
+            src="assets/images/icons/people.svg"
+            alt="share"
+          />
+        </button>
+        <button
+          (click)="switchDisplayMode()"
+          class="project-settings"
+        >
+          <img
+            src="assets/images/icons/bpm.svg"
+            alt="settings"
+          />
+        </button>
+        <button
+          (click)="projects.projectSettings(projects.current_project, users.user.id)"
+          [disabled]="projects.current_project.owner_id != users.user.id"
+          class="project-settings"
+        >
+          <img
+            src="assets/images/icons/gear.svg"
+            alt="settings"
+          />
+        </button>
+
+        <button
+          class="project-settings"
+          (click)="onDrawerButtonClick()"
+        >
+          <img
+            src="assets/images/icons/activity-log.svg"
+            alt="share"
+          />
+          <!-- <span *ngIf="newActivitiesCount > 0">({{ newActivitiesCount }})</span> -->
+        </button>
+
+        <!-- <button
+          (click)="toggleHelp()"
+          class="project-share"
+        >
+          ?
+        </button> -->
+      </div>
+    </div>
+    <div
+      *ngIf="projects.current_project.name"
+      class="top-info-bar"
+    >
+      <div class="current-project-name">
+        {{ projects.current_project.name }}
+      </div>
+      <!-- <div class="bpm-btn">
+        <img src="assets/images/icons/green_bpm.svg" alt="bpm" />
+        <p class="inter-medium-14">
+          {{ projects.current_project.bpm }} BPM, {{ projects.current_project.signature }}
+        </p>
+      </div> -->
+    </div>
+    <div class="top-header">
+      <div class="files-header">
+        <h3 class="h3-files inter-bold-16">FILES</h3>
+        <button
+          mat-button
+          class="add-stems updown-buttons inter-medium-14"
+          [disabled]="permissions.upload_disabled"
+          (click)="startUpload()"
+        >
+          <input
+            id="input_button"
+            ng2FileSelect
+            type="file"
+            multiple="true"
+            accept="*"
+            (change)="finishUpload($event)"
+          />
+          <svg
+            width="10"
+            height="11"
+            viewBox="0 0 10 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M5 0.5C5.18944 0.5 5.37112 0.575255 5.50508 0.709209C5.63903 0.843164 5.71429 1.02485 5.71429 1.21429V4.78571H9.28571C9.47515 4.78571 9.65684 4.86097 9.79079 4.99492C9.92475 5.12888 10 5.31056 10 5.5C10 5.68944 9.92475 5.87112 9.79079 6.00508C9.65684 6.13903 9.47515 6.21429 9.28571 6.21429H5.71429V9.78571C5.71429 9.97515 5.63903 10.1568 5.50508 10.2908C5.37112 10.4247 5.18944 10.5 5 10.5C4.81056 10.5 4.62888 10.4247 4.49492 10.2908C4.36097 10.1568 4.28571 9.97515 4.28571 9.78571V6.21429H0.714286C0.524845 6.21429 0.343164 6.13903 0.209209 6.00508C0.0752549 5.87112 0 5.68944 0 5.5C0 5.31056 0.0752549 5.12888 0.209209 4.99492C0.343164 4.86097 0.524845 4.78571 0.714286 4.78571H4.28571V1.21429C4.28571 1.02485 4.36097 0.843164 4.49492 0.709209C4.62888 0.575255 4.81056 0.5 5 0.5Z"
+              fill="currentcolor"
+            />
+          </svg>
+          <span>Upload</span>
+        </button>
+
+        <div
+          matTooltip="{{
+            !player.actiondisabled &&
+            !projects.current_project.isDownloadable &&
+            projects.current_project.owner_id !== users.user.id
+              ? 'The project owner has disabled the download option'
+              : ''
+          }}"
+        >
+          <button
+            mat-button
+            class="download-stems updown-buttons inter-medium-14"
+            [disabled]="
+              projects.current_project.owner_id === users.user.id
+                ? false || player.actiondisabled
+                : !player.downloadDisabled || player.actiondisabled
+            "
+            (click)="downloadStems()"
+          >
+            <svg
+              width="10"
+              height="11"
+              viewBox="0 0 10 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_581_358)">
+                <path
+                  d="M4.21875 0.5H5.78125C6.04102 0.5 6.25 0.708984 6.25 0.96875V4.25H7.96289C8.31055 4.25 8.48438 4.66992 8.23828 4.91602L5.26758 7.88867C5.12109 8.03516 4.88086 8.03516 4.73438 7.88867L1.75977 4.91602C1.51367 4.66992 1.6875 4.25 2.03516 4.25H3.75V0.96875C3.75 0.708984 3.95898 0.5 4.21875 0.5ZM10 7.84375V10.0312C10 10.291 9.79102 10.5 9.53125 10.5H0.46875C0.208984 10.5 0 10.291 0 10.0312V7.84375C0 7.58398 0.208984 7.375 0.46875 7.375H3.33398L4.29102 8.33203C4.68359 8.72461 5.31641 8.72461 5.70898 8.33203L6.66602 7.375H9.53125C9.79102 7.375 10 7.58398 10 7.84375ZM7.57812 9.5625C7.57812 9.34766 7.40234 9.17188 7.1875 9.17188C6.97266 9.17188 6.79688 9.34766 6.79688 9.5625C6.79688 9.77734 6.97266 9.95312 7.1875 9.95312C7.40234 9.95312 7.57812 9.77734 7.57812 9.5625ZM8.82812 9.5625C8.82812 9.34766 8.65234 9.17188 8.4375 9.17188C8.22266 9.17188 8.04688 9.34766 8.04688 9.5625C8.04688 9.77734 8.22266 9.95312 8.4375 9.95312C8.65234 9.95312 8.82812 9.77734 8.82812 9.5625Z"
+                  fill="currentcolor"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_581_358">
+                  <rect
+                    width="10"
+                    height="10"
+                    fill="currentcolor"
+                    transform="translate(0 0.5)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+            <span>Download</span>
+          </button>
+        </div>
+
+        <button
+          mat-button
+          class="delete-stems updown-buttons inter-medium-14"
+          [disabled]="player.actiondisabled || player.deletedisabled"
+          (click)="deleteStems()"
+        >
+          <svg
+            width="9"
+            height="11"
+            viewBox="0 0 9 11"
+            fill="currentcolor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.624999 9.5625C0.624999 9.81114 0.723771 10.0496 0.899586 10.2254C1.0754 10.4012 1.31386 10.5 1.5625 10.5H7.18749C7.43613 10.5 7.67459 10.4012 7.8504 10.2254C8.02622 10.0496 8.12499 9.81114 8.12499 9.5625V3H0.624999V9.5625ZM5.93749 4.5625C5.93749 4.47962 5.97042 4.40014 6.02902 4.34153C6.08763 4.28293 6.16711 4.25 6.24999 4.25C6.33287 4.25 6.41236 4.28293 6.47096 4.34153C6.52957 4.40014 6.56249 4.47962 6.56249 4.5625V8.9375C6.56249 9.02038 6.52957 9.09987 6.47096 9.15847C6.41236 9.21708 6.33287 9.25 6.24999 9.25C6.16711 9.25 6.08763 9.21708 6.02902 9.15847C5.97042 9.09987 5.93749 9.02038 5.93749 8.9375V4.5625ZM4.0625 4.5625C4.0625 4.47962 4.09542 4.40014 4.15402 4.34153C4.21263 4.28293 4.29212 4.25 4.375 4.25C4.45788 4.25 4.53736 4.28293 4.59597 4.34153C4.65457 4.40014 4.6875 4.47962 4.6875 4.5625V8.9375C4.6875 9.02038 4.65457 9.09987 4.59597 9.15847C4.53736 9.21708 4.45788 9.25 4.375 9.25C4.29212 9.25 4.21263 9.21708 4.15402 9.15847C4.09542 9.09987 4.0625 9.02038 4.0625 8.9375V4.5625ZM2.1875 4.5625C2.1875 4.47962 2.22042 4.40014 2.27903 4.34153C2.33763 4.28293 2.41712 4.25 2.5 4.25C2.58288 4.25 2.66236 4.28293 2.72097 4.34153C2.77957 4.40014 2.8125 4.47962 2.8125 4.5625V8.9375C2.8125 9.02038 2.77957 9.09987 2.72097 9.15847C2.66236 9.21708 2.58288 9.25 2.5 9.25C2.41712 9.25 2.33763 9.21708 2.27903 9.15847C2.22042 9.09987 2.1875 9.02038 2.1875 8.9375V4.5625ZM8.43749 1.125H6.09374L5.91015 0.759769C5.87126 0.681686 5.81135 0.616004 5.73717 0.570112C5.66298 0.524221 5.57746 0.499941 5.49023 0.500003H3.25781C3.17077 0.499669 3.0854 0.523858 3.01148 0.569801C2.93756 0.615743 2.87807 0.68158 2.83984 0.759769L2.65625 1.125H0.3125C0.22962 1.125 0.150134 1.15793 0.091529 1.21653C0.032924 1.27514 0 1.35462 0 1.4375L0 2.0625C0 2.14538 0.032924 2.22487 0.091529 2.28347C0.150134 2.34208 0.22962 2.375 0.3125 2.375H8.43749C8.52037 2.375 8.59986 2.34208 8.65846 2.28347C8.71707 2.22487 8.74999 2.14538 8.74999 2.0625V1.4375C8.74999 1.35462 8.71707 1.27514 8.65846 1.21653C8.59986 1.15793 8.52037 1.125 8.43749 1.125Z"
+              fill="currentcolor"
+            />
+          </svg>
+          <span>Delete</span>
+        </button>
+      </div>
+
+      <div
+        class="top-status"
+        [hidden]="permissions.upload_disabled"
+      >
+        <div
+          style="justify-content: flex-end; align-items: center; gap: 16px"
+          [ngStyle]="{
+            display: isFilledButton ? 'none' : 'inline-flex'
+          }"
+        >
+          <button
+            mat-button
+            class="outline-btn settings-btn"
+            (click)="projects.projectSettings(projects.current_project, users.user.id)"
+            [disabled]="projects.current_project.owner_id != users.user.id"
+          >
+            <img
+              src="assets/images/icons/gear.svg"
+              alt="settings"
+              style="margin-right: 8px"
+            />
+            <span class="inter-medium-14">Settings</span>
+          </button>
+          <button
+            *ngIf="projects.current_project.owner_id === users.user.id"
+            mat-button
+            class="outline-btn settings-btn"
+            (click)="this.projects.shareProject(this.projects.current_project)"
+            [disabled]="projects.current_project.owner_id != users.user.id"
+          >
+            <img
+              src="assets/images/icons/people.svg"
+              alt="share"
+              style="margin-right: 8px"
+            />
+            <span class="inter-medium-14">Share</span>
+          </button>
+
+          <button
+            mat-button
+            class="outline-btn settings-btn"
+            (click)="users.optOutMember()"
+            *ngIf="
+              projects.current_project.owner_id &&
+              projects.current_project.owner_id != users.user.id &&
+              users.user.email != 'demo@softcollab.com'
+            "
+          >
+            <img
+              src="assets/images/icons/opt-out.svg"
+              alt="help"
+              style="margin-right: 8px"
+            />
+            <span class="inter-medium-14">OPT-OUT</span>
+          </button>
+          <button
+            mat-button
+            class="outline-btn settings-btn"
+            (click)="toggleChat()"
+          >
+            <img
+              src="assets/images/icons/help.svg"
+              alt="help"
+              style="margin-right: 8px"
+            />
+            <span class="inter-medium-14">Help</span>
+          </button>
+        </div>
+
+        <div
+          style="justify-content: flex-end; align-items: center; gap: 8px"
+          [ngStyle]="{
+            display: !isFilledButton ? 'none' : 'inline-flex'
+          }"
+        >
+          <button
+            class="filled-btn"
+            (click)="projects.projectSettings(projects.current_project, users.user.id)"
+            [disabled]="projects.current_project.owner_id != users.user.id"
+          >
+            <img
+              src="assets/images/icons/gear.svg"
+              alt="settings"
+            />
+          </button>
+          <button
+            *ngIf="projects.current_project.owner_id === users.user.id"
+            class="filled-btn"
+            (click)="this.projects.shareProject(this.projects.current_project)"
+            [disabled]="projects.current_project.owner_id != users.user.id"
+          >
+            <img
+              src="assets/images/icons/people.svg"
+              alt="share"
+            />
+          </button>
+
+          <button
+            class="filled-btn"
+            (click)="users.optOutMember()"
+            *ngIf="
+              projects.current_project.owner_id &&
+              projects.current_project.owner_id != users.user.id
+            "
+          >
+            <img
+              src="assets/images/icons/opt-out.svg"
+              alt="help"
+            />
+          </button>
+
+          <button
+            class="filled-btn"
+            (click)="toggleChat()"
+          >
+            <img
+              src="assets/images/icons/help.svg"
+              alt="help"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr class="projects-hr" />
+    <div
+      class="chip-list"
+      [hidden]="permissions.members_hidden"
+      style="margin-bottom: 32px"
+    >
+      <p
+        class="title inter-medium-16"
+        style="color: white"
+      >
+        Invite new member
+      </p>
+      <form>
+        <div class="form-control">
+          <input
+            type="email"
+            class="email-control inter-light-14"
+            required
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
+            name="primaryEmail"
+            [(ngModel)]="users.primaryAddress"
+            placeholder="Enter an email to add member"
+            matInput
+            [formControl]="primaryEmailControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let email of filteredEmails | async"
+              [value]="email"
+            >
+              {{ email }}
+            </mat-option>
+          </mat-autocomplete>
+          <button
+            mat-button
+            class="standard-buttons inter-medium-14"
+            color="primary"
+            type="submit"
+            (click)="users.addMember()"
+          >
+            <img
+              src="assets/images/icons/user-plus.png"
+              alt="user_icon"
+              height="14"
+              width="14"
+            />
+            <span class="btn-text-decoration">Send Invite</span>
+          </button>
+        </div>
+      </form>
+
+      <p
+        class="title inter-medium-16"
+        style="margin-top: 32px; color: white"
+      >
+        Invited members
+      </p>
+      <mat-form-field class="chip-list-form">
+        <mat-chip-list
+          #chipList
+          aria-label="Member selection"
+          class="chip-control"
+        >
+          <mat-chip
+            *ngFor="let member of users.members"
+            (removed)="users.removeMember(member)"
+            class="assigned-chip-color"
+          >
+            {{ member.name === '' || member.name === null ? member.email : member.name }}
+            <button
+              matChipRemove
+              style="align-items: center; margin-top: auto; margin-bottom: auto"
+            >
+              <img
+                src="assets/images/icons/cancel.png"
+                alt="cancel"
+                height="14"
+                width="14"
+              />
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+      </mat-form-field>
+      <button
+        mat-mini-fab
+        aria-label="Close members section"
+        class="close-chips"
+        (click)="permissions.members_hidden = !permissions.members_hidden"
+      >
+        <img
+          src="assets/images/icons/modal_cancel.png"
+          alt="cancel"
+          height="20"
+          width="20"
+        />
+      </button>
+      <br />
+      <br />
+    </div>
+    <!-- <div ng2FileDrop class="file-container" [ngClass]="{'nv-file-over': this.hasBaseDropZoneOver}"
+      (fileOver)="this.fileOverBase($event)" [uploader]="uploader"> -->
+    <div
+      *ngIf="!projects.current_project.name"
+      class="empty-wrapper"
+    >
+      <div *ngIf="!projects.projects.length">
+        <div class="empty-state">
+          <img
+            src="../../../assets/images/welcome-ab.png"
+            alt="landing_illustration"
+            height="114px"
+            width="114px"
+          />
+          <h2 class="inter-regular-20">Welcome to SoftCollab</h2>
+          <p class="inter-regular-16">
+            Dear User, you have successfully logged in to SoftCollab. <br />
+            Please create a new project now and keep exploring SoftCollab.
+          </p>
+          <button
+            mat-button
+            (click)="projects.newProject(users.user.id)"
+          >
+            <span class="inter-medium-14">Create project now</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="projects.projects.length">
+        <div class="empty-state">
+          <img
+            src="../../../assets/images/welcome-ab.png"
+            alt="landing_illustration"
+            height="114px"
+            width="114px"
+          />
+          <h2
+            class="inter-regular-20"
+            style="margin-top: 24px"
+          >
+            Welcome to SoftCollab
+          </h2>
+          <p class="inter-regular-16">Please open a project, or create a new project.</p>
+          <button
+            mat-button
+            (click)="projects.newProject(users.user.id)"
+          >
+            <span class="inter-medium-14">Create project now</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <cdk-virtual-scroll-viewport
+      itemSize="200"
+      *ngIf="this.projects.current_project.name"
+      class="file-container"
+      [ngClass]="{'nv-file-over': this.hasBaseDropZoneOver}"
+      (fileOver)="this.fileOverBase($event)"
+    >
+      <div
+        id="upload_message"
+        class="message-div inter-regular-16"
+      >
+        Click upload or drag files here to upload files.
+      </div>
+      <div
+        *ngIf="projects.current_project.description"
+        class="bpm-btn"
+      >
+        <p class="inter-medium-14">
+          {{ projects.current_project.description }}
+        </p>
+      </div>
+      <section
+        *ngIf="files.length > 0"
+        class="audio-section"
+        style="margin-bottom: 48px; margin-top: 24px"
+      >
+        <div style="display: inline-flex; align-items: center; gap: 6px">
+          <mat-checkbox
+            (change)="selectAllFiles($event.checked)"
+            class="inter-regular-16"
+            >Select All
+          </mat-checkbox>
+          <button
+            mat-button
+            class="no-outline-btn settings-btn"
+            (click)="switchDisplayMode()"
+          >
+            <img
+              src="{{
+                playlist_mode
+                  ? 'assets/images/icons/grid.png'
+                  : 'assets/images/icons/align-justify.png'
+              }}"
+              alt="settings"
+              style="margin-right: 8px; height: 16px; width: 16px"
+            />
+            <span class="inter-medium-16">{{
+              playlist_mode ? 'Show All Files' : 'Show Audio Playlist'
+            }}</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="tag-container">
+        <div
+          [hidden]="playlist_mode"
+          *ngFor="let file of files"
+        >
+          <mat-card
+            *ngIf="file.isVideo"
+            class="card-video mat-card-video-padding"
+            [class.card-video-large]="file.largeVideo"
+            (click)="singleClickFile(file)"
+            (dblclick)="doubleClick(file)"
+            [ngStyle]="{
+              border: file.border
+            }"
+          >
+            <div
+              class="file-info"
+              (click)="infoButtonClick($event, file)"
+            >
+              <img
+                src="assets/images/icons/info.png"
+                alt="file_info"
+                height="24"
+                width="24"
+              />
+            </div>
+            <div
+              class="video-container"
+              [class.video-container-large]="file.largeVideo"
+            >
+              <video
+                class="video"
+                id="{{ file.key }}"
+                playsinline
+                preload="auto"
+                (loadedmetadata)="loadVideoTime(file)"
+              >
+                <source
+                  src="{{ file.s3Mp4Url }}"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+            <mat-progress-spinner
+              color="primary"
+              [ngStyle]="{visibility: file.show_spinner}"
+              [mode]="progress_indeterminate"
+              [value]="0"
+              class="video-spinner"
+            ></mat-progress-spinner>
+            <mat-card-title
+              [ngStyle]="{'background-color': file.backcolor}"
+              class="card-title inter-regular-16"
+              >{{ file.filename }}</mat-card-title
+            >
+            <mat-card-title
+              [ngStyle]="{'background-color': file.backcolor}"
+              class="card-details inter-light-14"
+              >{{ file.type }} &nbsp;&nbsp;{{ humanFileSize(file.filesize, true) }} &nbsp;&nbsp;
+              {{ player.getMinutesAndSeconds(file.duration) }}</mat-card-title
+            >
+            <mat-checkbox
+              class="video-mute"
+              [checked]="file.volume === 1"
+              (click)="player.cardMuteClick($event)"
+              (change)="player.cardMuteChange($event, file)"
+              >Play Audio
+            </mat-checkbox>
+            <img
+              class="card-checkmark"
+              [ngStyle]="{visibility: file.checkmark}"
+              src="assets/images/checkmark.png"
+            />
+          </mat-card>
+        </div>
+
+        <div
+          [hidden]="playlist_mode"
+          *ngFor="let file of files"
+        >
+          <mat-card
+            *ngIf="file.isImage"
+            class="card-video mat-card-video-padding"
+            [class.card-video-large]="file.largeVideo"
+            (click)="singleClickFile(file)"
+            (dblclick)="doubleClick(file)"
+            style="display: flex; justify-content: center"
+            [ngStyle]="{
+              border: file.border
+            }"
+          >
+            <div
+              class="file-info"
+              (click)="infoButtonClick($event, file)"
+            >
+              <img
+                src="assets/images/icons/info.png"
+                alt="file_info"
+                height="24"
+                width="24"
+              />
+            </div>
+            <img
+              src="{{ file.s3ImageUrl }}"
+              style="max-width: 100%; max-height: 76%"
+            />
+
+            <mat-card-title class="card-title-media inter-regular-16">{{
+              file.filename
+            }}</mat-card-title>
+            <mat-card-title class="card-details-media"
+              >{{ file.type }} &nbsp;&nbsp;{{ humanFileSize(file.filesize, true) }}</mat-card-title
+            >
+            <img
+              class="card-checkmark"
+              [ngStyle]="{visibility: file.checkmark}"
+              src="assets/images/checkmark.png"
+            />
+          </mat-card>
+        </div>
+
+        <div
+          [hidden]="playlist_mode"
+          *ngFor="let file of files"
+        >
+          <mat-card
+            *ngIf="!file.isAudio && !file.isVideo && !file.isImage"
+            class="card mat-card-padding"
+            (click)="chooseFile(file.key)"
+            (dblclick)="doubleClick(file)"
+            [ngStyle]="{
+              'background-color': file.backcolor,
+              border: file.border
+            }"
+          >
+            <div
+              class="file-info"
+              (click)="infoButtonClick($event, file)"
+            >
+              <img
+                src="assets/images/icons/info.png"
+                alt="file_info"
+                height="24"
+                width="24"
+              />
+            </div>
+            <mat-card-title class="card-title inter-regular-16">{{ file.filename }}</mat-card-title>
+            <mat-card-title class="card-details inter-light-14"
+              >{{ file.type }} &nbsp;&nbsp;{{ humanFileSize(file.filesize, true) }}</mat-card-title
+            >
+            <!-- <mat-card-content> -->
+            <!-- </mat-card-content> -->
+            <img
+              class="card-checkmark"
+              [ngStyle]="{visibility: file.checkmark}"
+              src="assets/images/checkmark.png"
+            />
+          </mat-card>
+        </div>
+
+        <div
+          [hidden]="playlist_mode"
+          *ngFor="let file of files"
+        >
+          <!-- *ngIf="!file.processing" -->
+          <mat-card
+            *ngIf="file.isAudio && file.tagset.length === 0"
+            class="card mat-card-padding"
+            (click)="chooseFile(file.key)"
+            (dblclick)="doubleClick(file)"
+            [ngStyle]="{
+              'background-color': file.backcolor,
+              border: file.border
+            }"
+          >
+            <div
+              class="file-info"
+              (click)="infoButtonClick($event, file)"
+            >
+              <img
+                src="assets/images/icons/info.png"
+                alt="file_info"
+                height="24"
+                width="24"
+              />
+            </div>
+            <mat-card-subtitle class="card-subtitle"
+              ><img
+                class="card-image inter-light-14"
+                [ngStyle]="{
+                  display: file.imageDisplay
+                }"
+                src="{{ file.s3PngUrl }}"
+            /></mat-card-subtitle>
+            <mat-card-title class="card-title inter-regular-16">{{ file.filename }}</mat-card-title>
+            <mat-card-title class="card-details inter-light-14"
+              >{{ file.type }} &nbsp;&nbsp;{{ humanFileSize(file.filesize, true) }} &nbsp;&nbsp;
+              {{ player.getMinutesAndSeconds(file.duration) }}</mat-card-title
+            >
+            <img
+              class="card-checkmark"
+              [ngStyle]="{visibility: file.checkmark}"
+              src="assets/images/checkmark.png"
+            />
+          </mat-card>
+          <!-- <ng-template #processing>
+            <mat-card class="card--processing"> </mat-card>
+          </ng-template> -->
+        </div>
+      </div>
+
+      <!--  Here we iterate thru tags -->
+      <div
+        *ngFor="let tag of tags"
+        [hidden]="playlist_mode"
+        style="margin: 48px 0"
+      >
+        <div class="tag-title-container">
+          <input
+            type="checkbox"
+            [checked]="isAllFilesSelected(tag)"
+            [indeterminate]="isIndeterminate(tag)"
+            (change)="selectAllFilesWithTag(tag)"
+            style="cursor: pointer"
+          />
+          <h3 class="inter-bold-16_V2">{{ tag }}</h3>
+        </div>
+        <div class="tag-container">
+          <div
+            [hidden]="playlist_mode"
+            *ngFor="let file of files"
+          >
+            <mat-card
+              *ngIf="file.isAudio && checkForTag(file, tag)"
+              class="card mat-card-padding"
+              (click)="chooseFile(file.key)"
+              (dblclick)="doubleClick(file)"
+              [ngStyle]="{
+                'background-color': file.backcolor,
+                border: file.border
+              }"
+            >
+              <div
+                class="file-info"
+                (click)="infoButtonClick($event, file)"
+              >
+                <img
+                  src="assets/images/icons/info.png"
+                  alt="file_info"
+                  height="24"
+                  width="24"
+                />
+              </div>
+
+              <mat-card-subtitle class="card-subtitle"
+                ><img
+                  class="card-image inter-light-14"
+                  [ngStyle]="{
+                    display: file.imageDisplay
+                  }"
+                  src="{{ file.s3PngUrl }}"
+              /></mat-card-subtitle>
+              <mat-card-title class="card-title inter-regular-16">
+                {{ file.filename }}
+              </mat-card-title>
+              <mat-card-title class="card-title inter-regular-16">{{
+                file.filename
+              }}</mat-card-title>
+              <mat-card-title class="card-details inter-light-14"
+                >{{ file.type }} &nbsp;&nbsp;{{ humanFileSize(file.filesize, true) }} &nbsp;&nbsp;
+                {{ player.getMinutesAndSeconds(file.duration) }}</mat-card-title
+              >
+              <img
+                class="card-checkmark"
+                [ngStyle]="{visibility: file.checkmark}"
+                src="assets/images/checkmark.png"
+              />
+            </mat-card>
+            <!-- <ng-template #processing>
+              <mat-card class="card--processing"> </mat-card>
+            </ng-template> -->
+          </div>
+        </div>
+      </div>
+      <div [hidden]="!playlist_mode">
+        <app-player
+          [callSelectFile]="this.selectFile"
+          [mainFiles]="this.files"
+          [tags]="this.tags"
+          [usedAsComponent]="true"
+        ></app-player>
+
+        <!-- <div class="playlist-share-column"> -->
+        <div class="playlist-share">
+          <!--      <h3>Playlist Share Link Generator</h3>-->
+          <!--      <br />-->
+          <!--      <mat-checkbox-->
+          <!--        >Enable Download on Shared Link-->
+          <!--        <br />-->
+          <!--      </mat-checkbox>-->
+
+          <button
+            mat-button
+            (click)="previewLink()"
+            class="playlist-preview-button"
+          >
+            <img src="assets/images/icons/share.png" />
+            <span class="inter-medium-14">Get Public Share Link</span>
+          </button>
+          <button
+            mat-button
+            (click)="getActiveLink()"
+            class="playlist-preview-button"
+          >
+            <img src="assets/images/icons/share.png" />
+            <span class="inter-medium-14">Get Link</span>
+          </button>
+          <button
+            mat-button
+            (click)="getEmbedCode()"
+            class="playlist-preview-button"
+          >
+            <img src="assets/images/icons/embedded.png" />
+            <span class="inter-medium-14">Get Embedded Code</span>
+          </button>
+
+          <!-- </div> -->
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+
+    <div
+      [hidden]="playlist_mode"
+      [ngClass]="{disabled: !this.projects.current_project.name, transport: true}"
+    >
+      <button
+        mat-mini-fab
+        class="play-stems"
+        color="primary"
+        [disabled]="player.playdisabled"
+        (click)="player.isPlaying ? player.stop() : player.play()"
+        onlick="player.ctx.resume();"
+      >
+        <mat-icon>{{ player.play_icon }}</mat-icon>
+      </button>
+      <mat-slider
+        class="position-slider"
+        tickInterval="1"
+        [disabled]="player.playdisabled"
+        min="0"
+        max="1000"
+        [(ngModel)]="player.slider_position"
+        (input)="player.sliderChange($event)"
+      ></mat-slider>
+      <div class="position-label inter-regular-14">{{ player.position_value }}</div>
+      <div class="volume-label inter-regular-14">VOL</div>
+      <mat-slider
+        [disabled]="player.playdisabled"
+        class="volume-slider"
+        tickInterval="1"
+        min="0"
+        max="100"
+        [value]="player.volume"
+        (input)="player.volumeChange($event)"
+      ></mat-slider>
+    </div>
+  </div>
+
+  <mat-drawer-container>
+    <mat-drawer
+      #drawer
+      class="activity-log-sidenav"
+      mode="side"
+      position="end"
+    >
+      <div class="sticky-header">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.5 0C11.6423 0 15 3.35775 15 7.5C15 11.6423 11.6423 15 7.5 15C3.35775 15 0 11.6423 0 7.5H1.5C1.5 10.8135 4.1865 13.5 7.5 13.5C10.8135 13.5 13.5 10.8135 13.5 7.5C13.5 4.1865 10.8135 1.5 7.5 1.5C5.4375 1.5 3.618 2.54025 2.53875 4.125L4.5 4.125V5.625L0 5.625L0 1.125L1.5 1.125L1.5 3C2.868 1.1775 5.04675 0 7.5 0ZM8.25 3.75L8.25 7.18875L10.6823 9.621L9.621 10.6823L6.75 7.80975V3.75L8.25 3.75Z"
+            fill="white"
+          />
+        </svg>
+        <p>Activity Log</p>
+      </div>
+      <div
+        class="items items-scroll-container"
+        #activityLogDiv
+      >
+        <div
+          *ngIf="activities.length === 0"
+          class="no-activity-data"
+        >
+          <div>
+            <img
+              src="../../../assets/images/no-activity-log.svg"
+              alt=""
+            />
+            <p class="inter-regular-16">No Activity Log</p>
+          </div>
+        </div>
+        <div class="item">
+          <app-activitylog-card
+            *ngFor="let activity of activities; trackBy: trackActivitesById"
+            [activity]="activity"
+            class="activity-card-container"
+          ></app-activitylog-card>
+        </div>
+      </div>
+
+      <div
+        *ngIf="loadingActivities"
+        class="loading"
+      >
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+
+      <div
+        *ngIf="noMoreActivitiesData"
+        class="no-more-data inter-regular-14"
+      >
+        No more data to load
+      </div>
+
+      <button
+        mat-button
+        (click)="toggleNotification()"
+        class="hide-button"
+      >
+        Hide Now
+        <svg
+          width="13"
+          height="10"
+          viewBox="0 0 13 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.4243 5.42426C12.6586 5.18995 12.6586 4.81005 12.4243 4.57574L8.60589 0.757359C8.37157 0.523045 7.99167 0.523045 7.75736 0.757359C7.52304 0.991674 7.52304 1.37157 7.75736 1.60589L11.1515 5L7.75736 8.39411C7.52304 8.62843 7.52304 9.00833 7.75736 9.24264C7.99167 9.47696 8.37157 9.47696 8.60589 9.24264L12.4243 5.42426ZM0 5.6H12V4.4H0V5.6Z"
+            fill="#BDBDBD"
+          />
+        </svg>
+      </button>
+    </mat-drawer>
+  </mat-drawer-container>
+
+  <div
+    *ngIf="!playlist_mode"
+    style="position: absolute; right: 0; top: 50%"
+  >
+    <button
+      mat-button
+      class="download-stems activity-log-button"
+      (click)="onDrawerButtonClick()"
+    >
+      <div style="display: inline-flex; gap: 8px; align-items: center">
+        <img
+          src="assets/images/icons/activity-log-rotate.svg"
+          height="14px"
+          width="14px"
+          alt="activity-log"
+        />
+
+        Activity Log
+        <span *ngIf="newActivitiesCount > 0">({{ newActivitiesCount }})</span>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- Edit tags button start form here -->
+<div
+  *ngIf="projects.current_project.owner_id === users.user.id"
+  [ngStyle]="selectedFiles.length > 0 && !playlist_mode ? {display: 'block'} : {display: 'none'}"
+>
+  <button
+    class="edit-tag-btn"
+    (click)="editTags()"
+  >
+    <img
+      src="assets/images/icons/edit_tags.png"
+      alt="tag-edit"
+    />
+    <div style="display: flex; flex-direction: column; gap: 4px; color: white; align-items: start">
+      <p class="inter-semibold-16">Edit Tags</p>
+      <p class="inter-regular-11">{{ selectedFiles.length }} files selected</p>
+    </div>
+  </button>
+</div>
+<!-- Edit tags button end here -->
+
+<!-- Event snippet for Website traffic conversion page -->
+<script>
+  gtag('event', 'conversion', {send_to: 'AW-1022441570/1FPSCJPTopMYEOLwxOcD'});
+</script>
